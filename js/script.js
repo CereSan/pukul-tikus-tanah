@@ -1,7 +1,7 @@
-const tanah = document.querySelectorAll('.tanah');
-const tikus = document.querySelectorAll('.tikus');
-const papanSkor = document.querySelector('.papan-skor');
-const pop = document.querySelector('#pop');
+const tanah = document.querySelectorAll(".tanah");
+const tikus = document.querySelectorAll(".tikus");
+const papanSkor = document.querySelector(".papan-skor");
+const pop = document.querySelector("#pop");
 
 let tanahSebelumnya;
 let selesai;
@@ -24,10 +24,11 @@ function randomWaktu(min, max) {
 function munculkanTikus() {
   const tRandom = randomTanah(tanah);
   const wRandom = randomWaktu(300, 1000);
-  tRandom.classList.add('muncul');
+  tRandom.classList.add("muncul");
+  tambahEvent(); // Tambah eventListener penambah skor
 
   setTimeout(() => {
-    tRandom.classList.remove('muncul');
+    tRandom.classList.remove("muncul");
     if (!selesai) {
       munculkanTikus();
     }
@@ -45,12 +46,21 @@ function mulai() {
 }
 
 function pukul() {
+  hapusEvent(); // Hapus eventListener penambah skor
   skor++;
-  this.parentNode.classList.remove('muncul');
+  this.parentNode.classList.remove("muncul");
   pop.play();
   papanSkor.textContent = skor;
 }
 
-tikus.forEach(t => {
-  t.addEventListener('click', pukul);
-});
+function tambahEvent() {
+  tikus.forEach((t) => {
+    t.addEventListener("click", pukul);
+  });
+}
+
+function hapusEvent() {
+  tikus.forEach((t) => {
+    t.removeEventListener("click", pukul);
+  });
+}
